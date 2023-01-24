@@ -1,0 +1,14 @@
+{
+    "fallback": "wg-10",
+    "segments": {
+        "segment02": "wg-20",
+        "segment03": "wg-30",
+        "segment04": "wg-40",
+        "segment05": "wg-50",
+        "segment06": "wg-60",
+        "segment07": "wg-70",
+        "segment08": "wg-80",
+        "segment09": "wg-90"
+    }
+}
+
