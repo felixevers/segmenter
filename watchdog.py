@@ -12,7 +12,7 @@ from utils.mover import write_moves
 logger = logging.getLogger(__name__)
 
 CLONE_URL = getenv("CLONE_URL", "https://github.com/ffac/peers-wg")
-REPOSITORY: str = getenv("REPOSITORY", "/etc/peers-wg")
+REPOSITORY: str = getenv("REPOSITORY", "/etc/wireguard/peers-wg")
 CONFIG_FILE: str = "watchdog_config.json"
 
 
@@ -29,9 +29,9 @@ def get_moves():
         logger.warning(f"unknown gateway found: {mac}")
         return None
 
+    needed_moves: dict[str, str] = {}
     for batadv_dev, segment in segments.items():
         gateways: list[str] = call_batctl(batadv_dev, ["gwl", "-nH"])
-        needed_moves: dict[str, str] = {}
         prefix_lower = "/sys/class/net/{}/lower_".format(batadv_dev)
         for dev in glob(prefix_lower + "*"):
             ifname = dev[len(prefix_lower) :]
@@ -56,7 +56,7 @@ def get_moves():
                         elif segments[other_seg]["priority"] == segment["priority"]:
                             # move node to first segment
                             needed_moves[next_node] = fallback["iface_name"]
-        return needed_moves
+    return needed_moves
 
 
 def main() -> None:
@@ -70,8 +70,9 @@ def main() -> None:
                 tunnel_key_map[mac]: intf for mac, intf in moves.items()
             }
             committed = write_moves(public_key_to_interface)
-            gitter.bulk_commit(committed, "watchdog update")
-            gitter.push()
+            if committed:
+                gitter.bulk_commit(committed, "watchdog update")
+                gitter.push()
         except Exception as e:
             logger.error(f"could not write - restoring {e}")
             gitter.restore()

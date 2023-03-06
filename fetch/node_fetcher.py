@@ -4,7 +4,7 @@ from os import getenv
 NODES_URL: str = getenv("HTTP_NODE_URL", "https://01.wg-node.freifunk-aachen.de/data/nodes.json")
 
 
-def extract_node_geo_info(node) -> tuple[tuple[float, float], str] | None:
+def extract_node_geo_info(node) -> tuple[tuple[float, float], str]:
     try:
         nodeinfo = node["nodeinfo"]
 
@@ -18,10 +18,10 @@ def extract_node_geo_info(node) -> tuple[tuple[float, float], str] | None:
         return None
 
 
-def extract_node_tunnel_info(node) -> tuple[tuple[float, float], str] | None:
+def extract_node_tunnel_info(node) -> tuple[tuple[float, float], str]:
     try:
         nodeinfo = node["nodeinfo"]
-        tunnel_mac: str = nodeinfo["network"]["mesh"]["bat0"]["interfaces"]["tunnel"]
+        tunnel_mac: str = nodeinfo["network"]["mesh"]["bat0"]["interfaces"]["tunnel"][0]
         public_key: str = nodeinfo["software"]["wireguard"]["public_key"]
 
         return (tunnel_mac, public_key)
