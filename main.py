@@ -6,9 +6,8 @@ from segment.geo_importer import get_interface_by_location, import_segments
 from utils.gitter import Gitter
 from utils.mover import write_moves
 
-CLONE_URL = "https://github.com/ffac/peers-wg"
-# REPOSITORY: str = os.getenv("REPOSITORY", "/etc/peers-wg")
-REPOSITORY: str = os.getenv("REPOSITORY", "/home/maurer/gitea/ffac/peers-wg")
+CLONE_URL = os.getenv("CLONE_URL", "https://github.com/ffac/peers-wg")
+REPOSITORY: str = os.getenv("REPOSITORY", "/etc/peers-wg")
 
 logger = logging.getLogger(__name__)
 

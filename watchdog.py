@@ -12,8 +12,7 @@ from utils.mover import write_moves
 logger = logging.getLogger(__name__)
 
 CLONE_URL = getenv("CLONE_URL", "https://github.com/ffac/peers-wg")
-# REPOSITORY: str = getenv("REPOSITORY", "/etc/peers-wg")
-REPOSITORY: str = getenv("REPOSITORY", "/home/maurer/gitea/ffac/peers-wg")
+REPOSITORY: str = getenv("REPOSITORY", "/etc/peers-wg")
 CONFIG_FILE: str = "watchdog_config.json"
 
 
