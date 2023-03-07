@@ -1,0 +1,13 @@
+[Unit]
+Description=A watchdog to find unwanted batman gateways
+Wants=network.target
+After=network.target
+
+[Service]
+User=auto
+WorkingDirectory=/home/auto
+ExecStart=/usr/bin/python3 watchdog.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
